@@ -1,0 +1,15 @@
+struct Mensagem {
+  string tipoMensagem;
+  long contador;
+  long id;
+  string mensagem;
+};
+
+interface Receptor {
+  void enviaMensagem(in Mensagem msg);
+  boolean prontoParaEntrega();
+  void mostraBuffer();
+  long retornaID();
+  boolean recebeuMensagemComConteudo(in string conteudo);
+  boolean podeDesalocar();
+};
