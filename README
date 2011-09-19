@@ -1,11 +1,12 @@
 Instrucoes para fazer o corba8 funcionar:
 
+EXECUTAR O .JAR
 1) como root, execute em um terminal: tnameserv
 2) execute em 3 terminais: src$ java -jar dist/corba8.jar
 
-para compilar:
+MODIFICAR E COMPILAR:
 1) modifique os arquivos que desejar, em /src/
-2) para compilar: src$ javac src/*.java
+2) compile: src$ javac src/*.java
 3) execute: src$ javac corba8.Principal
 
 F I M
