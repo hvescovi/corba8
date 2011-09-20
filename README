@@ -6,7 +6,7 @@ EXECUTAR O .JAR
 
 MODIFICAR E COMPILAR:
 1) modifique os arquivos que desejar, em /src/
-2) compile: src$ javac src/*.java
-3) execute: src$ javac corba8.Principal
+2) compile: src$ javac corba8/.java
+3) execute: src$ java corba8.Principal
 
 F I M
