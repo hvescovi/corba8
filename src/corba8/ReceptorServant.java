@@ -1,5 +1,6 @@
 package corba8;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class ReceptorServant extends ReceptorPOA {
@@ -41,8 +42,15 @@ public class ReceptorServant extends ReceptorPOA {
         
         //atualiza o relogio apenas se a mensagem nao for de mim para mim (
         //do emissor para o proprio receptor; e se nao for mensagem de FIM
+        
+        rel.incrementaLevandoEmContaMensagem(msg);
+        
         if ((idReceptor != msg.id) & (!msg.tipoMensagem.equals("FIM")))
         {
+            
+            
+            
+            /*
             //verifica o contador do receptor e o da mensagem, pra ver qual serah o maior
             int avanco = maior(msg.contador, rel.contador)+1;
 
@@ -51,6 +59,8 @@ public class ReceptorServant extends ReceptorPOA {
 
             //atualiza o relogio do receptor, que eh o mesmo do emissor
             rel.defineValor(avanco);
+             
+             */
         }
         
         //FIQUEI 3 HORAS aqui porque tava colocando idReceptor ao inves de msg.if
@@ -146,6 +156,9 @@ public class ReceptorServant extends ReceptorPOA {
             fila2Ativa = false;
             fila3Ativa = false;
             boolean comecou = false;
+            int vaiEntregar = 0;
+            int[] vet = new int[4];
+            
             //entra na espera
             do
             {
@@ -163,6 +176,7 @@ public class ReceptorServant extends ReceptorPOA {
                 if ((comecou) && (fila1Ativa | fila2Ativa | fila3Ativa) )
                 {
                     //retira de acordo com a ordem dos relogios logicos
+                    
                     c1 = fila1Ativa?pb1.espiaMensagemCabecaDeFila().contador:9999;
                     c2 = fila2Ativa?pb2.espiaMensagemCabecaDeFila().contador:9999;
                     c3 = fila3Ativa?pb3.espiaMensagemCabecaDeFila().contador:9999;
@@ -174,9 +188,50 @@ public class ReceptorServant extends ReceptorPOA {
                     
                     aEntregar = null;
            
-                    if ((c1<c2) & (c1<c3))  aEntregar = pb1.obtemERetiraCabecaDeFila();
-                    if ((c2<c1) & (c2<c3))  aEntregar = pb2.obtemERetiraCabecaDeFila();
-                    if ((c3<c1) & (c3<c2))  aEntregar = pb3.obtemERetiraCabecaDeFila();
+                    vaiEntregar = 0;
+                    
+                    //parte FEIA!
+                    if (fila1Ativa & fila2Ativa & fila3Ativa)
+                    {
+                        if ((c3<=c1) & (c3<=c2))  vaiEntregar = 3;
+                        if ((c2<=c1) & (c2<=c3))  vaiEntregar = 2;
+                        if ((c1<=c2) & (c1<=c3))  vaiEntregar = 1;
+                    }
+                    else
+                    {
+                        if (fila1Ativa & fila2Ativa & (!fila3Ativa))
+                            vaiEntregar = (c2<=c1)?2:1;
+                        else if (fila1Ativa & (!fila2Ativa) & fila3Ativa)
+                            vaiEntregar = (c3<=c1)?3:1;
+                        else if ((!fila1Ativa) & fila2Ativa & fila3Ativa)
+                            vaiEntregar = (c3<=c2)?3:2;
+                        
+                        else if ((!fila1Ativa) & (!fila2Ativa) & fila3Ativa)
+                            vaiEntregar = 3;
+                        else if ((!fila1Ativa) & fila2Ativa & (!fila3Ativa))
+                            vaiEntregar = 2;                                
+                        else if (fila1Ativa & (!fila2Ativa) & (!fila3Ativa))
+                            vaiEntregar = 1;
+                    }
+                    
+                            
+                    
+                    
+                    
+                            
+                    /*
+                    if ((c3<=c1) & (c3<=c2))  vaiEntregar = 1;
+                    if ((c2<=c1) & (c2<=c3))  vaiEntregar = 2;
+                    if ((c1<=c2) & (c1<=c3))  vaiEntregar = 3;
+                     */
+                    
+                    if (vaiEntregar == 1)
+                      aEntregar = pb1.obtemERetiraCabecaDeFila();
+                    else if (vaiEntregar == 2)
+                        aEntregar = pb2.obtemERetiraCabecaDeFila();
+                    else if (vaiEntregar == 3)
+                        aEntregar = pb3.obtemERetiraCabecaDeFila();
+                    
                     
                     //entrega a mensagem selecionada! com MENOR 
                     //valor de relogio logico
@@ -192,7 +247,7 @@ public class ReceptorServant extends ReceptorPOA {
                       
                     }
                     else if (aEntregar == null)
-                        System.out.print("\nDanou-se, relogios logicos iguais! c1="+c1+",c2="+c2+",c3="+c3);
+                        System.out.print("\nDanou-se, nada pra entregar! c1="+c1+",c2="+c2+",c3="+c3);
                     else System.out.print("\n O QUE DEU");
                     
                 }

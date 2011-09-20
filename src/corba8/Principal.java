@@ -139,37 +139,37 @@ public class Principal {
             
             if (e.id == 1)
             {  //e11 m21 m31 e41 m51 m61
-                e.send_local(new Mensagem("LOC", relogio.retornaValor(), e.id, "e11"));
+                e.send_local(new Mensagem("LOC", relogio.pulsa(), e.id, "e11"));
          //       System.out.println("...atraso..."); Thread.sleep(4000);
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m21")); 
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m21")); 
         //        System.out.println("...atraso..."); Thread.sleep(4000);
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m31")); 
-                e.send_local(new Mensagem("LOC", relogio.retornaValor(), e.id, "e41"));
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m51"));
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m61")); 
-                e.send_remote(new Mensagem("FIM", relogio.retornaValor(), e.id, "FIM"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m31")); 
+                e.send_local(new Mensagem("LOC", relogio.pulsa(), e.id, "e41"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m51"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m61")); 
+                e.send_remote(new Mensagem("FIM", relogio.pulsa(), e.id, "FIM"));
             }
             if (e.id == 2)
             {
                //e12 m22 e32 m42 m52 e62 m72
-                e.send_local(new Mensagem("LOC", relogio.retornaValor(), e.id, "e12"));
+                e.send_local(new Mensagem("LOC", relogio.pulsa(), e.id, "e12"));
           //      System.out.println("...atraso..."); Thread.sleep(4000);
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m22")); 
-                e.send_local(new Mensagem("LOC", relogio.retornaValor(), e.id, "e32"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m22")); 
+                e.send_local(new Mensagem("LOC", relogio.pulsa(), e.id, "e32"));
             //    System.out.println("...atraso..."); Thread.sleep(4000);
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m42")); 
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m52"));
-                e.send_local(new Mensagem("LOC", relogio.retornaValor(), e.id, "e62"));
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m72"));
-                e.send_remote(new Mensagem("FIM", relogio.retornaValor(), e.id, "FIM"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m42")); 
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m52"));
+                e.send_local(new Mensagem("LOC", relogio.pulsa(), e.id, "e62"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m72"));
+                e.send_remote(new Mensagem("FIM", relogio.pulsa(), e.id, "FIM"));
             }
             if (e.id == 3)
             {
                 // m13 m23 e33 e43 m53 m63
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m13"));
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m23"));
-                e.send_local(new Mensagem("LOC", relogio.retornaValor(), e.id, "e33")); //Thread.sleep(1000);
-                e.send_local(new Mensagem("LOC", relogio.retornaValor(), e.id, "e43"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m13"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m23"));
+                e.send_local(new Mensagem("LOC", relogio.pulsa(), e.id, "e33")); //Thread.sleep(1000);
+                e.send_local(new Mensagem("LOC", relogio.pulsa(), e.id, "e43"));
       
                 //soh mandar o m53 se o e32 (m42) e o m21 estiverem no buffer
                 //RENOMEAR ESSE METODO PARA recebeuMensagemComConteudo()
@@ -185,9 +185,9 @@ public class Principal {
                     }
                 }
                     
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m53"));// Thread.sleep(1000);
-                e.send_remote(new Mensagem("REQ", relogio.retornaValor(), e.id, "m63"));
-                e.send_remote(new Mensagem("FIM", relogio.retornaValor(), e.id, "FIM"));
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m53"));// Thread.sleep(1000);
+                e.send_remote(new Mensagem("REQ", relogio.pulsa(), e.id, "m63"));
+                e.send_remote(new Mensagem("FIM", relogio.pulsa(), e.id, "FIM"));
                   
                  
             }

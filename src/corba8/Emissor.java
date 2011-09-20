@@ -18,7 +18,7 @@ class Emissor {
     void send_local(Mensagem msg)
     {
         //APENAS incremento o contador
-        relogio.incrementa();
+        relogio.pulsa();
     }
     
     void send_remote(Mensagem msg)
