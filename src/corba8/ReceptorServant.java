@@ -1,7 +1,12 @@
 package corba8;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReceptorServant extends ReceptorPOA {
 
@@ -168,12 +173,17 @@ public class ReceptorServant extends ReceptorPOA {
                 fila2Ativa = pb2.temCabecaDeFila() && (!pb2.espiaMensagemCabecaDeFila().mensagem.equals("FIM"));
                 fila3Ativa = pb3.temCabecaDeFila() && (!pb3.espiaMensagemCabecaDeFila().mensagem.equals("FIM"));
                 
+                
                 if (!comecou)
                 {
                     comecou = fila1Ativa && fila2Ativa && fila3Ativa;
                 }
                 
-                if ((comecou) && (fila1Ativa | fila2Ativa | fila3Ativa) )
+                termina = pb1.iniciouEFinalizou() &&
+                        pb2.iniciouEFinalizou() &&
+                        pb3.iniciouEFinalizou();
+                
+                if ((comecou) && (!termina))
                 {
                     //retira de acordo com a ordem dos relogios logicos
                     
@@ -190,7 +200,7 @@ public class ReceptorServant extends ReceptorPOA {
            
                     vaiEntregar = 0;
                     
-                    //parte FEIA!
+                    //parte FEIA! 30 minutos pra sair esse IF!
                     if (fila1Ativa & fila2Ativa & fila3Ativa)
                     {
                         if ((c3<=c1) & (c3<=c2))  vaiEntregar = 3;
@@ -213,12 +223,7 @@ public class ReceptorServant extends ReceptorPOA {
                         else if (fila1Ativa & (!fila2Ativa) & (!fila3Ativa))
                             vaiEntregar = 1;
                     }
-                    
-                            
-                    
-                    
-                    
-                            
+                                  
                     /*
                     if ((c3<=c1) & (c3<=c2))  vaiEntregar = 1;
                     if ((c2<=c1) & (c2<=c3))  vaiEntregar = 2;
@@ -247,7 +252,14 @@ public class ReceptorServant extends ReceptorPOA {
                       
                     }
                     else if (aEntregar == null)
-                        System.out.print("\nDanou-se, nada pra entregar! c1="+c1+",c2="+c2+",c3="+c3);
+                    {
+                        System.out.print("\nNada pra entregar! c1="+c1+",c2="+c2+",c3="+c3);
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(ReceptorServant.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                     else System.out.print("\n O QUE DEU");
                     
                 }
@@ -260,10 +272,34 @@ public class ReceptorServant extends ReceptorPOA {
             
             System.out.print("\n FINALIZADO!");
             System.out.print("\n buffer de entrega: ");
+            
+            Hashtable ht = new Hashtable();
+            
             for (Mensagem m:entreguesCompleta)
             {
                 System.out.print(m.mensagem+"["+m.contador+"] ");
+                ht.put(m.contador, m.mensagem);
             }
+            
+            //ordernar a Hash
+            Vector v = new Vector(ht.keySet());
+            Collections.sort(v);
+            Iterator it = v.iterator();
+            String msg;
+            System.out.println("\nBuffer de entrega ordenado pelo relogio logico: ");
+            while (it.hasNext())
+            {
+                int cont = (Integer) it.next();
+                
+                msg = (String) ht.get(cont);
+                
+                System.out.print(msg+"["+cont+"]"+" ");
+            }
+            
+            
+            
+            
+            //agora mostrar novamente ordenado pelo relogio logico
             podeDesalocar = true;
         }    
     }
